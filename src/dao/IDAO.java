@@ -15,5 +15,4 @@ public interface IDAO {
 	public void alterar(EntidadeDominio entidadeDominio);
 	
 	public void deletar(EntidadeDominio entidadeDominio);
-
 }

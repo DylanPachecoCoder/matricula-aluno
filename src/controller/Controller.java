@@ -11,13 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.AlunoDAO;
 import dominio.Aluno;
-import dominio.EntidadeDominio;
+import facade.Facade;
+import facade.IFacade;
 
 @WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/update", "/delete" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	AlunoDAO dao = new AlunoDAO();
 	Aluno aluno = new Aluno();
+	IFacade facade = new Facade();
 
 	public Controller() {
 		super();
@@ -26,13 +28,12 @@ public class Controller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getServletPath();
-		System.out.println(action);
 		if (action.equals("/main")) {
 			contatos(request, response);
 		} else if (action.equals("/insert")) {
 			novoAluno(request, response);
 		} else if (action.equals("/select")) {
-			listarAlunos(request, response);
+			buscarAluno(request, response);
 		} else if (action.equals("/update")) {
 			editarAluno(request, response);
 		} else if (action.equals("/delete")) {
@@ -44,13 +45,8 @@ public class Controller extends HttpServlet {
 
 	protected void contatos(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ArrayList<Aluno> alunos = new ArrayList<>();
-		ArrayList<EntidadeDominio> lista = dao.listar();
-
-		for (int i = 0; i < lista.size(); i++) {
-			Aluno aluno = (Aluno) lista.get(i);
-			alunos.add(aluno);
-		}
+		
+		ArrayList<Aluno> alunos = facade.buscarTodos();
 		request.setAttribute("alunos", alunos);
 		RequestDispatcher rd = request.getRequestDispatcher("cadastro.jsp");
 		rd.forward(request, response);
@@ -61,16 +57,16 @@ public class Controller extends HttpServlet {
 		aluno.setNome(request.getParameter("nome"));
 		aluno.setFone(request.getParameter("fone"));
 		aluno.setEmail(request.getParameter("email"));
-
-		dao.salvar(aluno);
+		
+		facade.salvar(aluno);
 		response.sendRedirect("main");
 	}
 	
-	protected void listarAlunos(HttpServletRequest request, HttpServletResponse response)
+	protected void buscarAluno(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int idAluno = Integer.parseInt(request.getParameter("id"));
 		aluno.setId(idAluno);
-		dao.selecionar(aluno);
+		facade.buscar(aluno);
 		
 		request.setAttribute("nome", aluno.getNome());
 		request.setAttribute("fone", aluno.getFone());
@@ -86,7 +82,7 @@ public class Controller extends HttpServlet {
 		aluno.setFone(request.getParameter("fone"));
 		aluno.setEmail(request.getParameter("email"));
 		
-		dao.alterar(aluno);
+		facade.atualizar(aluno);
 		response.sendRedirect("main");
 		
 	}
@@ -95,7 +91,7 @@ public class Controller extends HttpServlet {
 			throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		aluno.setId(id);
-		dao.deletar(aluno);
+		facade.deletar(aluno);
 		response.sendRedirect("main");
 	}
 }
