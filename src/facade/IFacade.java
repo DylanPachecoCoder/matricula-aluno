@@ -15,5 +15,5 @@ public interface IFacade {
 	
 	public void buscar(EntidadeDominio entidade);
 	
-	public ArrayList<Aluno> buscarTodos();
+	public ArrayList<Aluno> buscarTodos(EntidadeDominio entidade);
 }

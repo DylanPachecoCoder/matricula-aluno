@@ -92,6 +92,7 @@ public class AlunoDAO extends AbstractDAO{
 	@Override
 	public void deletar(EntidadeDominio entidadeDominio) {
 		Aluno aluno = (Aluno)entidadeDominio;
+		System.out.println(aluno.getId());
 		
 		executa(new IExecutaQuery(){
 
@@ -102,13 +103,13 @@ public class AlunoDAO extends AbstractDAO{
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
-				pst.executeUpdate();
+				pst.executeQuery();
 			}
 		});		
 	}
 
 	@Override
-	public ArrayList<EntidadeDominio> listar() {
+	public ArrayList<EntidadeDominio> listar(EntidadeDominio entidadeDominio) {
 		ArrayList<EntidadeDominio> alunos = new ArrayList<>();
 		
 		executa(new IExecutaQuery(){

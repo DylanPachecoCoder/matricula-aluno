@@ -46,7 +46,7 @@ public class Controller extends HttpServlet {
 	protected void contatos(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		ArrayList<Aluno> alunos = facade.buscarTodos();
+		ArrayList<Aluno> alunos = facade.buscarTodos(aluno);
 		request.setAttribute("alunos", alunos);
 		RequestDispatcher rd = request.getRequestDispatcher("cadastro.jsp");
 		rd.forward(request, response);
