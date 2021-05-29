@@ -8,7 +8,7 @@ public interface IDAO {
 	
 	public void salvar(EntidadeDominio entidadeDominio);
 	
-	public ArrayList<EntidadeDominio> listar();
+	public ArrayList<EntidadeDominio> listar(EntidadeDominio entidadeDominio);
 	
 	public void selecionar(EntidadeDominio entidadeDominio);
 	
