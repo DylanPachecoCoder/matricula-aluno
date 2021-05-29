@@ -79,11 +79,4 @@ public class Dependente extends Pessoa {
 		}		
 
 	}
-
-	@Override
-	public void salvar() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

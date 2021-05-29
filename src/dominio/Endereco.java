@@ -10,7 +10,6 @@ import util.Conexao;
 
 public class Endereco {
 	private int id;
-	private Pessoa pessoa;
 	private String logradouro;
 	private String numero;
 	private String cep;
@@ -38,14 +37,6 @@ public class Endereco {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
 	}
 
 	public TipoEndereco getTpEndereco() {
@@ -98,56 +89,56 @@ public class Endereco {
 	
 	public void salvar(Connection connection) {
 		
-		PreparedStatement pst=null;
-		boolean ctrTransacao = false;
-		try {
-			
-			if(connection == null) {
-				connection = Conexao.getConnectionPostgres();	
-				ctrTransacao = true;
-			}						
-	
-			tpEndereco.salvar(connection, "tpendereco");			
-					
-			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO tb_endereco(cli_id, tpend_id, cidade, estado, ");
-			sql.append("logradouro, numero, cep) VALUES (?,?,?,?,?,?,?)");		
-					
-			pst = connection.prepareStatement(sql.toString());
-			pst.setInt(1, pessoa.getId()); 
-			pst.setInt(2, tpEndereco.getId());
-			pst.setString(3, cidade.getDescricao());	
-			pst.setString(4, cidade.getEstado().getDescricao());	
-			pst.setString(5, logradouro);
-			pst.setString(6, numero);
-			pst.setString(7, cep);
-			pst.executeUpdate();	
-			
-			ResultSet rs = pst.getGeneratedKeys();			
-			if(rs.next())
-				id = rs.getInt(1);		
-			
-			if(ctrTransacao) {
-				connection.commit();	
-			}				
-			
-		} catch (SQLException | ClassNotFoundException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();			
-		}finally{
-			try {
-				pst.close();
-				if(ctrTransacao) {
-					connection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
+//		PreparedStatement pst=null;
+//		boolean ctrTransacao = false;
+//		try {
+//			
+//			if(connection == null) {
+//				connection = Conexao.getConnectionPostgres();	
+//				ctrTransacao = true;
+//			}						
+//	
+//			tpEndereco.salvar(connection, "tpendereco");			
+//					
+//			StringBuilder sql = new StringBuilder();
+//			sql.append("INSERT INTO tb_endereco(cli_id, tpend_id, cidade, estado, ");
+//			sql.append("logradouro, numero, cep) VALUES (?,?,?,?,?,?,?)");		
+//					
+//			pst = connection.prepareStatement(sql.toString());
+//			pst.setInt(1, pessoa.getId()); 
+//			pst.setInt(2, tpEndereco.getId());
+//			pst.setString(3, cidade.getDescricao());	
+//			pst.setString(4, cidade.getEstado().getDescricao());	
+//			pst.setString(5, logradouro);
+//			pst.setString(6, numero);
+//			pst.setString(7, cep);
+//			pst.executeUpdate();	
+//			
+//			ResultSet rs = pst.getGeneratedKeys();			
+//			if(rs.next())
+//				id = rs.getInt(1);		
+//			
+//			if(ctrTransacao) {
+//				connection.commit();	
+//			}				
+//			
+//		} catch (SQLException | ClassNotFoundException e) {
+//			try {
+//				connection.rollback();
+//			} catch (SQLException e1) {
+//				e1.printStackTrace();
+//			}
+//			e.printStackTrace();			
+//		}finally{
+//			try {
+//				pst.close();
+//				if(ctrTransacao) {
+//					connection.close();
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}		
 
 	}
 	
