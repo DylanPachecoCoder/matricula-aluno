@@ -23,7 +23,7 @@ public class Facade implements IFacade {
 		definirRNS();
 	}
 	
-	AlunoDAO dao = new AlunoDAO();
+	IDAO dao = new AlunoDAO();
 
 	@Override
 	public String salvar(EntidadeDominio entidade) {

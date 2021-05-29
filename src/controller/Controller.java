@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,12 +12,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controle.ConsultarCommand;
+import controle.ICommand;
+import controle.IViewHelper;
+import controle.SalvarCommand;
+import controle.VhAluno;
 import dao.AlunoDAO;
 import dominio.Aluno;
 import dominio.AlunoNovo;
 import dominio.Cidade;
 import dominio.Curso;
 import dominio.Endereco;
+import dominio.EntidadeDominio;
 import dominio.Estado;
 import dominio.Materia;
 import dominio.Professor;
@@ -28,30 +36,56 @@ import facade.IFacade;
 @WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/update", "/delete" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	AlunoDAO dao = new AlunoDAO();
 	Aluno aluno = new Aluno();
 	IFacade facade = new Facade();
+	
+	private static Map<String, ICommand> commands;
+	private static Map<String, IViewHelper> vhs;
 
 	public Controller() {
 		super();
+		commands = new HashMap<String, ICommand>();
+		commands.put("/insert", new SalvarCommand());
+//		commands.put("EXCLUIR", new ExcluirCommand());
+//		commands.put("/main", new ConsultarCommand());
+//		commands.put("ALTERAR", new AlterarCommand());
+		
+		vhs = new HashMap<String, IViewHelper>();
+		vhs.put("/MatriculaAluno/insert", new VhAluno());
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		String action = request.getServletPath();
+		String uri = request.getRequestURI();
+		System.out.println(uri);
+		
+		if(uri.equals("/MatriculaAluno/insert")){
+			IViewHelper vh = vhs.get(uri);
+			EntidadeDominio entidade = vh.getEntidade(request);
+			
+			ICommand cmd = commands.get(action);
+			
+			Object msg = cmd.execute(entidade);
+			vh.setView(msg, request, response);
+		}
+
+		
 		if (action.equals("/main")) {
 			contatos(request, response);
-		} else if (action.equals("/insert")) {
-			novoAluno(request, response);
-		} else if (action.equals("/select")) {
-			buscarAluno(request, response);
-		} else if (action.equals("/update")) {
-			editarAluno(request, response);
-		} else if (action.equals("/delete")) {
-			removerAluno(request, response);
-		} else {
-			response.sendRedirect("index.html");
-		}
+		} 
+//		else if (action.equals("/insert")) {
+//			novoAluno(request, response);
+//		} else if (action.equals("/select")) {
+//			buscarAluno(request, response);
+//		} else if (action.equals("/update")) {
+//			editarAluno(request, response);
+//		} else if (action.equals("/delete")) {
+//			removerAluno(request, response);
+//		} else {
+//			response.sendRedirect("index.html");
+//		}
 	}
 
 	protected void contatos(HttpServletRequest request, HttpServletResponse response)

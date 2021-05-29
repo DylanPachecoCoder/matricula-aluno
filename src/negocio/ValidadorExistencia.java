@@ -11,7 +11,7 @@ public class ValidadorExistencia implements IStrategy {
 //		if(alunos != null && alunos.size()>0) {
 //			return "Cliente já cadastrado!";
 //		}
-		return "a";
+		return null;
 	}
 
 }
