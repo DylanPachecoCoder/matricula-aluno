@@ -26,27 +26,34 @@ public class Facade implements IFacade {
 	AlunoDAO dao = new AlunoDAO();
 
 	@Override
-	public void salvar(EntidadeDominio entidade) {
-		Aluno aluno = (Aluno) entidade;
-		dao.salvar(aluno);
+	public String salvar(EntidadeDominio entidade) {
+		String msg = executarRegras(entidade);
+		String nmClasse = entidade.getClass().getName();
+		if (msg == null) {
+			IDAO dao = daos.get(nmClasse);
+			dao.salvar(entidade);
+		} else {
+			return msg;
+		}
+		return null;
 	}
 
 	@Override
-	public void deletar(EntidadeDominio entidade) {
-		Aluno aluno = (Aluno) entidade;
-		dao.deletar(aluno);
+	public String deletar(EntidadeDominio entidade) {
+		dao.deletar(entidade);
+		return "";
 	}
 
 	@Override
-	public void atualizar(EntidadeDominio entidade) {
-		Aluno aluno = (Aluno) entidade;
-		dao.alterar(aluno);
+	public String atualizar(EntidadeDominio entidade) {
+		dao.alterar(entidade);
+		return "";
 	}
 
 	@Override
-	public void buscar(EntidadeDominio entidade) {
-		Aluno aluno = (Aluno) entidade;
-		dao.selecionar(aluno);
+	public String buscar(EntidadeDominio entidade) {
+		dao.selecionar(entidade);
+		return "";
 	}
 
 	@Override
@@ -64,13 +71,13 @@ public class Facade implements IFacade {
 	private void definirRNS() {
 		rns = new HashMap<String, List<IStrategy>>();
 
-		ValidadorDadosObrigatoriosAluno vCiente = new ValidadorDadosObrigatoriosAluno();
+		ValidadorDadosObrigatoriosAluno vAluno = new ValidadorDadosObrigatoriosAluno();
 		ValidadorCpf vCpf = new ValidadorCpf();
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
 		ValidadorExistencia vExistencia = new ValidadorExistencia();
 
 		List<IStrategy> rnsAluno = new ArrayList<IStrategy>();
-		rnsAluno.add(vCiente);
+		rnsAluno.add(vAluno);
 		rnsAluno.add(vCpf);		
 		rnsAluno.add(vExistencia);
 		rnsAluno.add(cDtCadastro);
@@ -87,5 +94,28 @@ public class Facade implements IFacade {
 		daos.put(Aluno.class.getName(), new AlunoDAO());		
 		//daos.put(Produto.class.getName(), new ProdutoDAO());
 		//daos.put(Fornecedor.class.getName(), new FornecedorDAO());
+	}
+	
+	private String executarRegras(EntidadeDominio entidade) {
+		String nmClasse = entidade.getClass().getName();
+		StringBuilder msg = new StringBuilder();
+
+		List<IStrategy> regras = rns.get(nmClasse);
+
+		if (regras != null) {
+			for (IStrategy s : regras) {
+				String m = s.processar(entidade);
+
+				if (m != null) {
+					msg.append(m);
+					msg.append("\n");
+				}
+			}
+		}
+
+		if (msg.length() > 0)
+			return msg.toString();
+		else
+			return null;
 	}
 }

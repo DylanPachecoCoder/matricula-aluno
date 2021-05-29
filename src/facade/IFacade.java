@@ -7,13 +7,13 @@ import dominio.EntidadeDominio;
 
 public interface IFacade {
 	
-	public void salvar(EntidadeDominio entidade);
+	public String salvar(EntidadeDominio entidade);
 	
-	public void deletar(EntidadeDominio entidade);
+	public String deletar(EntidadeDominio entidade);
 	
-	public void atualizar(EntidadeDominio entidade);
+	public String atualizar(EntidadeDominio entidade);
 	
-	public void buscar(EntidadeDominio entidade);
+	public String buscar(EntidadeDominio entidade);
 	
 	public ArrayList<Aluno> buscarTodos(EntidadeDominio entidade);
 }
