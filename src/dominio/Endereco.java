@@ -1,13 +1,5 @@
 package dominio;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-
-import util.Conexao;
-
 public class Endereco {
 	private int id;
 	private String logradouro;
@@ -28,8 +20,6 @@ public class Endereco {
 		this.cidade = cidade;
 		this.tpEndereco = tpEndereco;
 	}
-	
-	
 	
 	public int getId() {
 		return id;
@@ -85,62 +75,5 @@ public class Endereco {
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
-	}
-	
-	public void salvar(Connection connection) {
-		
-//		PreparedStatement pst=null;
-//		boolean ctrTransacao = false;
-//		try {
-//			
-//			if(connection == null) {
-//				connection = Conexao.getConnectionPostgres();	
-//				ctrTransacao = true;
-//			}						
-//	
-//			tpEndereco.salvar(connection, "tpendereco");			
-//					
-//			StringBuilder sql = new StringBuilder();
-//			sql.append("INSERT INTO tb_endereco(cli_id, tpend_id, cidade, estado, ");
-//			sql.append("logradouro, numero, cep) VALUES (?,?,?,?,?,?,?)");		
-//					
-//			pst = connection.prepareStatement(sql.toString());
-//			pst.setInt(1, pessoa.getId()); 
-//			pst.setInt(2, tpEndereco.getId());
-//			pst.setString(3, cidade.getDescricao());	
-//			pst.setString(4, cidade.getEstado().getDescricao());	
-//			pst.setString(5, logradouro);
-//			pst.setString(6, numero);
-//			pst.setString(7, cep);
-//			pst.executeUpdate();	
-//			
-//			ResultSet rs = pst.getGeneratedKeys();			
-//			if(rs.next())
-//				id = rs.getInt(1);		
-//			
-//			if(ctrTransacao) {
-//				connection.commit();	
-//			}				
-//			
-//		} catch (SQLException | ClassNotFoundException e) {
-//			try {
-//				connection.rollback();
-//			} catch (SQLException e1) {
-//				e1.printStackTrace();
-//			}
-//			e.printStackTrace();			
-//		}finally{
-//			try {
-//				pst.close();
-//				if(ctrTransacao) {
-//					connection.close();
-//				}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}		
-
-	}
-	
-	
+	}	
 }

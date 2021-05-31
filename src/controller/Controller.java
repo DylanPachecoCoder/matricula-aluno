@@ -77,13 +77,15 @@ public class Controller extends HttpServlet {
 		} 
 //		else if (action.equals("/insert")) {
 //			novoAluno(request, response);
-//		} else if (action.equals("/select")) {
-//			buscarAluno(request, response);
-//		} else if (action.equals("/update")) {
-//			editarAluno(request, response);
-//		} else if (action.equals("/delete")) {
-//			removerAluno(request, response);
-//		} else {
+//		} 
+		else if (action.equals("/select")) {
+			buscarAluno(request, response);
+		} else if (action.equals("/update")) {
+			editarAluno(request, response);
+		} else if (action.equals("/delete")) {
+			removerAluno(request, response);
+		} 
+//		else {
 //			response.sendRedirect("index.html");
 //		}
 	}
