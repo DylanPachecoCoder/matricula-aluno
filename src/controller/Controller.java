@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controle.ConsultarCommand;
+import controle.ExcluirCommand;
 import controle.ICommand;
 import controle.IViewHelper;
 import controle.SalvarCommand;
-import controle.VhAluno;
+import controle.VhDeletaAluno;
+import controle.VhSalvaAluno;
 import dao.AlunoDAO;
 import dominio.Aluno;
 import dominio.AlunoNovo;
@@ -46,23 +48,27 @@ public class Controller extends HttpServlet {
 		super();
 		commands = new HashMap<String, ICommand>();
 		commands.put("/insert", new SalvarCommand());
-//		commands.put("EXCLUIR", new ExcluirCommand());
+		commands.put("/delete", new ExcluirCommand());
 //		commands.put("/main", new ConsultarCommand());
 //		commands.put("ALTERAR", new AlterarCommand());
 		
 		vhs = new HashMap<String, IViewHelper>();
-		vhs.put("/MatriculaAluno/insert", new VhAluno());
+		vhs.put("/insert", new VhSalvaAluno());
+		vhs.put("/delete", new VhDeletaAluno());
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		String action = request.getServletPath();
-		String uri = request.getRequestURI();
-		System.out.println(uri);
+//		String uri = request.getRequestURI();
+//		System.out.println(uri);
 		
-		if(uri.equals("/MatriculaAluno/insert")){
-			IViewHelper vh = vhs.get(uri);
+		if(
+				action.equals("/insert") 
+				|| action.equals("/delete")
+				){
+			IViewHelper vh = vhs.get(action);
 			EntidadeDominio entidade = vh.getEntidade(request);
 			
 			ICommand cmd = commands.get(action);
@@ -82,9 +88,10 @@ public class Controller extends HttpServlet {
 			buscarAluno(request, response);
 		} else if (action.equals("/update")) {
 			editarAluno(request, response);
-		} else if (action.equals("/delete")) {
-			removerAluno(request, response);
 		} 
+//		else if (action.equals("/delete")) {
+//			removerAluno(request, response);
+//		} 
 //		else {
 //			response.sendRedirect("index.html");
 //		}

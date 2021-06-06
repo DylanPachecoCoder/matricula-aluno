@@ -2,10 +2,6 @@ package controle;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,14 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import dominio.Aluno;
 import dominio.EntidadeDominio;
 
-public class VhAluno implements IViewHelper {
+public class VhDeletaAluno implements IViewHelper {
 
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
 		Aluno aluno = new Aluno();
-		aluno.setNome(request.getParameter("nome"));
-		aluno.setFone(request.getParameter("fone"));
-		aluno.setEmail(request.getParameter("email"));
+		int id = Integer.parseInt(request.getParameter("id"));
+		aluno.setId(id);
 		return aluno;
 	}
 
@@ -34,6 +29,7 @@ public class VhAluno implements IViewHelper {
 				out.println(resultado);
 			} else {
 				response.sendRedirect("main");
+				System.out.println("entrou no set view do VH");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

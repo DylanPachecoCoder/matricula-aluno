@@ -41,19 +41,19 @@ public class Facade implements IFacade {
 	@Override
 	public String deletar(EntidadeDominio entidade) {
 		dao.deletar(entidade);
-		return "";
+		return null;
 	}
 
 	@Override
 	public String atualizar(EntidadeDominio entidade) {
 		dao.alterar(entidade);
-		return "";
+		return null;
 	}
 
 	@Override
 	public String buscar(EntidadeDominio entidade) {
 		dao.selecionar(entidade);
-		return "";
+		return null;
 	}
 
 	@Override
