@@ -82,11 +82,6 @@ public class Facade implements IFacade {
 		rnsAluno.add(vExistencia);
 		rnsAluno.add(cDtCadastro);
 		rns.put(Aluno.class.getName(), rnsAluno);
-		
-		/*	List<IStrategy> rnsFornecedor = new ArrayList<IStrategy>();
-		rnsFornecedor.add(vCpf);
-		rnsFornecedor.add(cDtCadastro);*/
-	//	rns.put(Fornecedor.class.getName(), rnsFornecedor);
 	}
 
 	private void definirDAOS() {

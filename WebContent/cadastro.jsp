@@ -20,8 +20,6 @@
 		<thead>
 			<tr>
 				<th>Nome</th>
-				<th>Fone</th>
-				<th>Email</th>
 				<th>Opções</th>
 			</tr>
 		</thead>
@@ -31,8 +29,6 @@
 			%>
 			<tr>
 				<td><%=lista.get(i).getNome()%></td>
-				<td><%=lista.get(i).getFone()%></td>
-				<td><%=lista.get(i).getEmail()%></td>
 				<td>
 				<a href="select?id=<%= lista.get(i).getId()%>" class="Botao1">Editar</a>
 				<a href="javascript: confirmar(<%= lista.get(i).getId()%>)" class="Botao2">Excluir</a>

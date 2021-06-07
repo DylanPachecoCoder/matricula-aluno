@@ -28,8 +28,6 @@ public class VhBuscarAluno implements IViewHelper {
 				
 				request.setAttribute("id", aluno.getId());
 				request.setAttribute("nome", aluno.getNome());
-				request.setAttribute("fone", aluno.getFone());
-				request.setAttribute("email", aluno.getEmail());
 				
 				RequestDispatcher rd = request.getRequestDispatcher("editar.jsp");
 				rd.forward(request, response);

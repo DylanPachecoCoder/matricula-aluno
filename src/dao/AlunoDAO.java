@@ -22,14 +22,14 @@ public class AlunoDAO extends AbstractDAO{
 				connection.setAutoCommit(false);				
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO tb_aluno(nome, fone, email)");
-				sql.append("VALUES (?, ?, ?)");		
+				sql.append("INSERT INTO tb_aluno(nome)");
+				sql.append("VALUES (?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, aluno.getNome());
-				pst.setString(2, aluno.getFone());
-				pst.setString(3, aluno.getEmail());
+//				pst.setString(2, aluno.getFone());
+//				pst.setString(3, aluno.getEmail());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
@@ -60,8 +60,8 @@ public class AlunoDAO extends AbstractDAO{
 				while(rs.next()) {
 					aluno.setId(Integer.parseInt(rs.getString(1)));
 					aluno.setNome(rs.getString(2));
-					aluno.setFone(rs.getString(3));
-					aluno.setEmail(rs.getString(4));
+//					aluno.setFone(rs.getString(3));
+//					aluno.setEmail(rs.getString(4));
 				}
 			}
 			
@@ -77,13 +77,13 @@ public class AlunoDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "update tb_aluno set nome=?, fone=?, email=? where id_alu=?";
+				String sql = "update tb_aluno set nome=? where id_alu=?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setString(1, aluno.getNome());
-				pst.setString(2, aluno.getFone());
-				pst.setString(3, aluno.getEmail());
-				pst.setInt(4, aluno.getId());
+//				pst.setString(2, aluno.getFone());
+//				pst.setString(3, aluno.getEmail());
+				pst.setInt(2, aluno.getId());
 				pst.executeQuery();
 			}
 		});
@@ -125,10 +125,12 @@ public class AlunoDAO extends AbstractDAO{
 				while(rs.next()) {
 					int id = Integer.parseInt(rs.getString(1));
 					String nome = rs.getString(2);
-					String fone = rs.getString(3);
-					String email = rs.getString(4);
-					
-					alunos.add(new Aluno(id, nome, fone, email));	
+//					String fone = rs.getString(3);
+//					String email = rs.getString(4);
+					Aluno aluno = new Aluno();
+					aluno.setNome(nome);
+					aluno.setId(id);
+					alunos.add(aluno);	
 				}
 			}
 		});

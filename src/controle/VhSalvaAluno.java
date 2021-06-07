@@ -27,8 +27,6 @@ public class VhSalvaAluno implements IViewHelper {
 		
 		Aluno aluno = new Aluno();
 		aluno.setNome(request.getParameter("nome"));
-		aluno.setFone(request.getParameter("fone"));
-		aluno.setEmail(request.getParameter("email"));
 		return aluno;
 	}
 
