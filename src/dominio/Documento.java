@@ -16,14 +16,6 @@ public class Documento extends EntidadeDominio{
 		this.tpDocumento = tpDocumento;
 	}
 	
-//	public Boolean validaDocumento() {
-//		if(tpDocumento == TipoDocumento.CPF) {
-//			// valida se existe o cpf no banco
-//			return this.codigo.length() == 11;
-//		}
-//		return true;
-//	}
-	
 	public TipoDocumento getTpDocumento() {
 		return tpDocumento;
 	}

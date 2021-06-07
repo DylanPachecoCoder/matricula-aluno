@@ -29,7 +29,6 @@ public class VhDeletaAluno implements IViewHelper {
 				out.println(resultado);
 			} else {
 				response.sendRedirect("main");
-				System.out.println("entrou no set view do VH");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

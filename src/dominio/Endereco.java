@@ -1,7 +1,6 @@
 package dominio;
 
-public class Endereco {
-	private int id;
+public class Endereco extends EntidadeDominio {
 	private String logradouro;
 	private String numero;
 	private String cep;
@@ -19,14 +18,6 @@ public class Endereco {
 		this.complemento = complemento;
 		this.cidade = cidade;
 		this.tpEndereco = tpEndereco;
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public TipoEndereco getTpEndereco() {
