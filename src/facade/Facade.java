@@ -26,7 +26,7 @@ public class Facade implements IFacade {
 	IDAO dao = new AlunoDAO();
 
 	@Override
-	public String salvar(EntidadeDominio entidade) {
+	public Object salvar(EntidadeDominio entidade) {
 		String msg = executarRegras(entidade);
 		String nmClasse = entidade.getClass().getName();
 		if (msg == null) {
@@ -39,25 +39,25 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public String deletar(EntidadeDominio entidade) {
+	public Object deletar(EntidadeDominio entidade) {
 		dao.deletar(entidade);
 		return null;
 	}
 
 	@Override
-	public String atualizar(EntidadeDominio entidade) {
+	public Object atualizar(EntidadeDominio entidade) {
 		dao.alterar(entidade);
 		return null;
 	}
 
 	@Override
-	public String buscar(EntidadeDominio entidade) {
+	public Object buscar(EntidadeDominio entidade) {
 		dao.selecionar(entidade);
-		return null;
+		return entidade;
 	}
 
 	@Override
-	public ArrayList<Aluno> buscarTodos(EntidadeDominio entidade) {
+	public Object buscarTodos(EntidadeDominio entidade) {
 		ArrayList<Aluno> alunos = new ArrayList<>();
 		ArrayList<EntidadeDominio> lista = dao.listar(entidade);
 

@@ -2,10 +2,10 @@ package controle;
 
 import dominio.EntidadeDominio;
 
-public class SalvarCommand extends AbstractCommand{
+public class BuscarCommand extends AbstractCommand{
 	
 	public Object execute(EntidadeDominio entidade) {		
-		return fachada.salvar(entidade);
+		return fachada.buscar(entidade);
 	}
 
 }

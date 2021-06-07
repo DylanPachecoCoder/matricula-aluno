@@ -1,19 +1,16 @@
 package facade;
 
-import java.util.ArrayList;
-
-import dominio.Aluno;
 import dominio.EntidadeDominio;
 
 public interface IFacade {
 	
-	public String salvar(EntidadeDominio entidade);
+	public Object salvar(EntidadeDominio entidade);
 	
-	public String deletar(EntidadeDominio entidade);
+	public Object deletar(EntidadeDominio entidade);
 	
-	public String atualizar(EntidadeDominio entidade);
+	public Object atualizar(EntidadeDominio entidade);
 	
-	public String buscar(EntidadeDominio entidade);
+	public Object buscar(EntidadeDominio entidade);
 	
-	public ArrayList<Aluno> buscarTodos(EntidadeDominio entidade);
+	public Object buscarTodos(EntidadeDominio entidade);
 }

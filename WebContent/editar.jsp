@@ -13,6 +13,9 @@
 	<form name="frmAluno" action="update">
 		<table>
 			<tr>
+				<td><input type="text" name="id" class="Caixa1" value="<%out.print(request.getAttribute("id")); %>" readonly></td>
+			</tr>
+			<tr>
 				<td><input type="text" name="nome" class="Caixa1" value="<%out.print(request.getAttribute("nome")); %>"></td>
 			</tr>
 			<tr>

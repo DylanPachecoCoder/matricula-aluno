@@ -8,7 +8,7 @@ import dominio.EntidadeDominio;
 
 public class ConsultarCommand extends AbstractCommand{
 	
-	public ArrayList<Aluno> execute(EntidadeDominio entidade) {
+	public Object execute(EntidadeDominio entidade) {
 		
 		return fachada.buscarTodos(entidade);
 	}

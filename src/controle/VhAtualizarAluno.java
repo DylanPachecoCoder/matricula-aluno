@@ -9,23 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import dominio.Aluno;
 import dominio.EntidadeDominio;
 
-public class VhSalvaAluno implements IViewHelper {
+public class VhAtualizarAluno implements IViewHelper {
 
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
-		
-//		Estado estado = new Estado("SP");
-//		Cidade cidade = new Cidade("Poá", estado);
-//		Endereco endereco = new Endereco("casa", "366", "08560050", "", cidade, new TipoEndereco("casa", "casa"));
-//		Semestre semestre = new Semestre();
-//		Professor professor = new Professor("Rodrigo", "08/12/1995", endereco, null, "qualificacao");
-//		Materia materia = new Materia("ES3", null, StatusMateria.ANDAMENTO, semestre, professor);
-//		java.util.List<Materia> materias = new ArrayList<Materia>();
-//		materias.add(materia);
-//		Curso curso = new Curso("ADS", materias);
-//		AlunoNovo aluno = new AlunoNovo("Dylan", "08/12/1995", endereco, null, semestre, semestre);
-		
 		Aluno aluno = new Aluno();
+		aluno.setId(Integer.parseInt(request.getParameter("id")));
 		aluno.setNome(request.getParameter("nome"));
 		aluno.setFone(request.getParameter("fone"));
 		aluno.setEmail(request.getParameter("email"));
@@ -45,8 +34,7 @@ public class VhSalvaAluno implements IViewHelper {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
-
+		}
 	}
 
 }
