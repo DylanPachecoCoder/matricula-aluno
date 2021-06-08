@@ -2,7 +2,6 @@ package dominio;
 
 public class Aluno extends Pessoa  {
 	
-	private Semestre semestreAtual;
 	private Semestre semestreInicial;
 	private Curso curso;
 	
@@ -13,14 +12,6 @@ public class Aluno extends Pessoa  {
 		super(nome, dataNascimento, endereco, cpf, rg);
 		this.semestreInicial = semestreInicial;
 		this.curso = curso;
-	}
-
-	public Semestre getSemestreAtual() {
-		return semestreAtual;
-	}
-
-	public void setSemestreAtual(Semestre semestreAtual) {
-		this.semestreAtual = semestreAtual;
 	}
 
 	public Semestre getSemestreInicial() {

@@ -2,7 +2,7 @@ package dominio;
 
 import java.util.List;
 
-public class Curso {
+public class Curso extends EntidadeDominio {
 	
 	private String descricao;
 	private List<Materia> materias;

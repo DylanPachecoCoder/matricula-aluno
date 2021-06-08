@@ -7,47 +7,39 @@ import java.util.ArrayList;
 import util.Conexao;
 import util.IExecutaQuery;
 import dominio.Aluno;
+import dominio.Endereco;
 import dominio.EntidadeDominio;
 
-public class AlunoDAO extends AbstractDAO{
+public class EnderecoDAO extends AbstractDAO{
 
 	@Override
 	public void salvar(EntidadeDominio entidadeDominio) {
-		Aluno aluno = (Aluno)entidadeDominio;
+		Endereco endereco = (Endereco)entidadeDominio;
 		executa(new IExecutaQuery() {
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {	
-				IDAO cursoDAO = new CursoDAO();
-				cursoDAO.salvar(aluno.getCurso());
-				
-				IDAO semestreDAO = new SemestreDAO();
-				semestreDAO.salvar(aluno.getSemestreInicial());
-				
-				IDAO enderecoDAO = new EnderecoDAO();
-				enderecoDAO.salvar(aluno.getEndereco());
-				
+			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();	
-				connection.setAutoCommit(false);	
+				connection.setAutoCommit(false);				
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno, aluno_curso, aluno_semestre, endereco_aluno)");
+				sql.append("INSERT INTO endereco(logradouro, cep, numero, complemento, tp_endereco, cidade, estado)");
 				sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, aluno.getNome());
-				pst.setString(2, aluno.getDataNascimento());
-				pst.setString(3, aluno.getRg());
-				pst.setString(4, aluno.getCpf());
-				pst.setInt(5, aluno.getCurso().getId());
-				pst.setInt(6, aluno.getSemestreInicial().getId());
-				pst.setInt(7, aluno.getEndereco().getId());
+				pst.setString(1, endereco.getLogradouro());
+				pst.setString(2, endereco.getCep());
+				pst.setInt(3, endereco.getNumero());
+				pst.setString(4, endereco.getComplemento());
+				pst.setString(5, endereco.getTpEndereco().toString());
+				pst.setString(6, endereco.getCidade().getDescricao());
+				pst.setString(7, endereco.getCidade().getEstado().getDescricao());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
 				if(rs.next())
-					aluno.setId(rs.getInt(1));
+					endereco.setId(rs.getInt(1));
 				
 				connection.commit();	
 			}

@@ -29,8 +29,8 @@ public class VhSalvaAluno implements IViewHelper {
 		
 		Estado estado = new Estado("SP");
 		Cidade cidade = new Cidade("Poá", estado);
-		Endereco endereco = new Endereco("casa", "366", "08560050", "", cidade, TipoEndereco.CASA);
-		Semestre semestre = new Semestre(2021, SemestreEnum.PRIMEIRO);
+		Endereco endereco = new Endereco("casa", 366, "08560050", "", cidade, TipoEndereco.CASA);
+		Semestre semestre = new Semestre(2021, "1");
 //		Professor professor = new Professor("Rodrigo", "08/12/1995", endereco, null, "qualificacao");
 //		Materia materia = new Materia("ES3", null, StatusMateria.ANDAMENTO, semestre, professor);
 //		List<Materia> materias = new ArrayList<Materia>();

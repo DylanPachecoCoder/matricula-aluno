@@ -2,7 +2,7 @@ package dominio;
 
 public class Endereco extends EntidadeDominio {
 	private String logradouro;
-	private String numero;
+	private int numero;
 	private String cep;
 	private String complemento;
 	private Cidade cidade;
@@ -10,7 +10,7 @@ public class Endereco extends EntidadeDominio {
 	
 	public Endereco() {}
 	
-	public Endereco(String logradouro, String numero, String cep, 
+	public Endereco(String logradouro, int numero, String cep, 
 			String complemento, Cidade cidade, TipoEndereco tpEndereco) {
 		this.logradouro = logradouro;
 		this.numero = numero;
@@ -36,11 +36,11 @@ public class Endereco extends EntidadeDominio {
 		this.logradouro = logradouro;
 	}
 
-	public String getNumero() {
+	public int getNumero() {
 		return numero;
 	}
 
-	public void setNumero(String numero) {
+	public void setNumero(int numero) {
 		this.numero = numero;
 	}
 

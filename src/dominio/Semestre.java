@@ -1,13 +1,13 @@
 package dominio;
 
-public class Semestre {
+public class Semestre extends EntidadeDominio {
 	
 	private int ano;
-	private SemestreEnum semestreEnum;
+	private String semestre;
 	
-	public Semestre(int ano, SemestreEnum semestreEnum) {
+	public Semestre(int ano, String semestre) {
 		this.ano = ano;
-		this.semestreEnum = semestreEnum;
+		this.semestre = semestre;
 	}
 
 	public int getAno() {
@@ -18,11 +18,11 @@ public class Semestre {
 		this.ano = ano;
 	}
 
-	public SemestreEnum getSemestreEnum() {
-		return semestreEnum;
+	public String getSemestreEnum() {
+		return semestre;
 	}
 
-	public void setSemestreEnum(SemestreEnum semestreEnum) {
-		this.semestreEnum = semestreEnum;
+	public void setSemestreEnum(String semestre) {
+		this.semestre = semestre;
 	}
 }
