@@ -1,49 +1,32 @@
 package dominio;
 
-public class Aluno extends EntidadeDominio  {
-
-	private String nome;
-	private String fone;
-	private String email;
+public class Aluno extends Pessoa  {
+	
+	private Semestre semestreInicial;
+	private Curso curso;
 	
 	public Aluno() {}
 	
-	public Aluno(String nome, String fone, String email) {
-		super();
-		this.nome = nome;
-		this.fone = fone;
-		this.email = email;
-	}
-	
-	public Aluno(int id, String nome, String fone, String email) {
-		super(id);
-		this.nome = nome;
-		this.fone = fone;
-		this.email = email;
+	public Aluno(String nome, String dataNascimento, Endereco endereco, String cpf, String rg, 
+			Semestre semestreInicial, Curso curso) {
+		super(nome, dataNascimento, endereco, cpf, rg);
+		this.semestreInicial = semestreInicial;
+		this.curso = curso;
 	}
 
-	public String getNome() {
-		return nome;
+	public Semestre getSemestreInicial() {
+		return semestreInicial;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setSemestreInicial(Semestre semestreInicial) {
+		this.semestreInicial = semestreInicial;
 	}
 
-	public String getFone() {
-		return fone;
+	public Curso getCurso() {
+		return curso;
 	}
 
-	public void setFone(String fone) {
-		this.fone = fone;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 }

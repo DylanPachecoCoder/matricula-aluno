@@ -1,6 +1,7 @@
 package dominio;
 
 public class Cidade {
+	
 	private String descricao;
 	private Estado estado;
 	
@@ -26,6 +27,4 @@ public class Cidade {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	
-	
 }

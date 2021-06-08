@@ -18,10 +18,8 @@ public class Conexao {
 			else
 				System.out.println("NÃO CONECTADO!!!!");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

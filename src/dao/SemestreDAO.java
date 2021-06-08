@@ -8,46 +8,33 @@ import util.Conexao;
 import util.IExecutaQuery;
 import dominio.Aluno;
 import dominio.EntidadeDominio;
+import dominio.Semestre;
 
-public class AlunoDAO extends AbstractDAO{
+public class SemestreDAO extends AbstractDAO{
 
 	@Override
 	public void salvar(EntidadeDominio entidadeDominio) {
-		Aluno aluno = (Aluno)entidadeDominio;
+		Semestre semestre = (Semestre)entidadeDominio;
 		executa(new IExecutaQuery() {
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {	
-				IDAO cursoDAO = new CursoDAO();
-				cursoDAO.salvar(aluno.getCurso());
-				
-				IDAO semestreDAO = new SemestreDAO();
-				semestreDAO.salvar(aluno.getSemestreInicial());
-				
-				IDAO enderecoDAO = new EnderecoDAO();
-				enderecoDAO.salvar(aluno.getEndereco());
-				
+			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();	
-				connection.setAutoCommit(false);	
+				connection.setAutoCommit(false);				
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno, aluno_curso, aluno_semestre, endereco_aluno)");
-				sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");		
+				sql.append("INSERT INTO semestre(ano_semestre, sem_semestre)");
+				sql.append("VALUES (?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, aluno.getNome());
-				pst.setString(2, aluno.getDataNascimento());
-				pst.setString(3, aluno.getRg());
-				pst.setString(4, aluno.getCpf());
-				pst.setInt(5, aluno.getCurso().getId());
-				pst.setInt(6, aluno.getSemestreInicial().getId());
-				pst.setInt(7, aluno.getEndereco().getId());
+				pst.setString(1, String.valueOf(semestre.getAno()));
+				pst.setString(2, semestre.getSemestreEnum());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
 				if(rs.next())
-					aluno.setId(rs.getInt(1));
+					semestre.setId(rs.getInt(1));
 				
 				connection.commit();	
 			}

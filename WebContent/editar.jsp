@@ -13,13 +13,13 @@
 	<form name="frmAluno" action="update">
 		<table>
 			<tr>
+				<td><input type="text" name="id" class="Caixa1" value="<%out.print(request.getAttribute("id")); %>" readonly></td>
+			</tr>
+			<tr>
 				<td><input type="text" name="nome" class="Caixa1" value="<%out.print(request.getAttribute("nome")); %>"></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="fone" class="Caixa2" value="<%out.print(request.getAttribute("fone")); %>"></td>
-			</tr>
-			<tr>
-				<td><input type="text" name="email" class="Caixa1" value="<%out.print(request.getAttribute("email")); %>"></td>
+				<td><input type="text" name="fone" class="Caixa2" value="<%out.print(request.getAttribute("dataNascimento")); %>"></td>
 			</tr>
 		</table>
 		<input type="button" value="Salvar" class="Botao1" onclick="validar()">
