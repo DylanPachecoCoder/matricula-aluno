@@ -1,8 +1,5 @@
 package controle;
 
-import java.util.ArrayList;
-
-import dominio.Aluno;
 import dominio.EntidadeDominio;
 
 

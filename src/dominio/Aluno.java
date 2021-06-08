@@ -1,7 +1,5 @@
 package dominio;
 
-import java.util.List;
-
 public class Aluno extends Pessoa  {
 	
 	private Semestre semestreAtual;
@@ -10,10 +8,9 @@ public class Aluno extends Pessoa  {
 	
 	public Aluno() {}
 	
-	public Aluno(String nome, String dataNascimento, Endereco endereco, List<Documento> documentos, 
-			Semestre semestreAtual, Semestre semestreInicial, Curso curso) {
-		super(nome, dataNascimento, endereco, documentos);
-		this.semestreAtual = semestreAtual;
+	public Aluno(String nome, String dataNascimento, Endereco endereco, String cpf, String rg, 
+			Semestre semestreInicial, Curso curso) {
+		super(nome, dataNascimento, endereco, cpf, rg);
 		this.semestreInicial = semestreInicial;
 		this.curso = curso;
 	}

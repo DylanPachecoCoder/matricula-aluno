@@ -19,7 +19,7 @@
 				<td><input type="text" name="nome" class="Caixa1" value="<%out.print(request.getAttribute("nome")); %>"></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="fone" class="Caixa2" value="<%out.print(request.getAttribute("fone")); %>"></td>
+				<td><input type="text" name="fone" class="Caixa2" value="<%out.print(request.getAttribute("dataNascimento")); %>"></td>
 			</tr>
 		</table>
 		<input type="button" value="Salvar" class="Botao1" onclick="validar()">

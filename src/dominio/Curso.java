@@ -10,9 +10,8 @@ public class Curso {
 	
 	public Curso() {}
 	
-	public Curso(String descricao, List<Materia> materias, Periodo periodo) {
+	public Curso(String descricao, Periodo periodo) {
 		this.descricao = descricao;
-		this.materias = materias;
 		this.periodo = periodo;
 	}
 

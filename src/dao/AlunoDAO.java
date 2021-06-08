@@ -22,13 +22,13 @@ public class AlunoDAO extends AbstractDAO{
 				connection.setAutoCommit(false);				
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO tb_aluno(nome)");
-				sql.append("VALUES (?)");		
+				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno)");
+				sql.append("VALUES (?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, aluno.getNome());
-//				pst.setString(2, aluno.getFone());
+				pst.setString(2, aluno.getDataNascimento());
 //				pst.setString(3, aluno.getEmail());
 				pst.executeUpdate();
 				
@@ -51,7 +51,7 @@ public class AlunoDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "select * from tb_aluno where id_alu = ?";
+				String sql = "select * from aluno where id_aluno = ?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
@@ -60,6 +60,7 @@ public class AlunoDAO extends AbstractDAO{
 				while(rs.next()) {
 					aluno.setId(Integer.parseInt(rs.getString(1)));
 					aluno.setNome(rs.getString(2));
+					aluno.setDataNascimento(rs.getString(3));
 //					aluno.setFone(rs.getString(3));
 //					aluno.setEmail(rs.getString(4));
 				}
@@ -77,11 +78,11 @@ public class AlunoDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "update tb_aluno set nome=? where id_alu=?";
+				String sql = "update aluno set nome_aluno=? where id_aluno=?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setString(1, aluno.getNome());
-//				pst.setString(2, aluno.getFone());
+//				pst.setString(2, aluno.getDataNascimento());
 //				pst.setString(3, aluno.getEmail());
 				pst.setInt(2, aluno.getId());
 				pst.executeQuery();
@@ -99,7 +100,7 @@ public class AlunoDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "delete from tb_aluno where id_alu=?";
+				String sql = "delete from aluno where id_aluno=?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
@@ -117,7 +118,7 @@ public class AlunoDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "select * from tb_aluno order by nome";
+				String sql = "select * from aluno order by nome_aluno";
 						
 				pst = connection.prepareStatement(sql);
 				ResultSet rs = pst.executeQuery();
@@ -125,11 +126,15 @@ public class AlunoDAO extends AbstractDAO{
 				while(rs.next()) {
 					int id = Integer.parseInt(rs.getString(1));
 					String nome = rs.getString(2);
-//					String fone = rs.getString(3);
-//					String email = rs.getString(4);
+					String dataNascimento = rs.getString(3);
+					String rg = rs.getString(4);
+					String cpf = rs.getString(5);
 					Aluno aluno = new Aluno();
 					aluno.setNome(nome);
 					aluno.setId(id);
+					aluno.setDataNascimento(dataNascimento);
+					aluno.setCpf(cpf);
+					aluno.setRg(rg);
 					alunos.add(aluno);	
 				}
 			}
