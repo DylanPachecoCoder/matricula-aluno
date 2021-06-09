@@ -22,6 +22,12 @@
 				<td><input type="Date" name="dt_Nasc" class="Caixa2" value="<%out.print(request.getAttribute("dataNascimento")); %>"></td>
 			</tr>
 			<tr>
+				<td><input type="text" name="cpf" class="Caixa1" value="<%out.print(request.getAttribute("cpf")); %>"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="rg" class="Caixa1" value="<%out.print(request.getAttribute("rg")); %>"></td>
+			</tr>
+			<tr>
 				<td><input type="text" name="logradouro" class="Caixa2" value="<%out.print(request.getAttribute("logradouro")); %>"></td>
 			</tr>
 			<tr>

@@ -29,6 +29,8 @@ public class VhBuscarAluno implements IViewHelper {
 				request.setAttribute("id", aluno.getId());
 				request.setAttribute("nome", aluno.getNome());
 				request.setAttribute("dataNascimento", aluno.getDataNascimento());
+				request.setAttribute("cpf", aluno.getCpf());
+				request.setAttribute("rg", aluno.getRg());
 				request.setAttribute("logradouro", aluno.getEndereco().getLogradouro());
 				request.setAttribute("cep", aluno.getEndereco().getCep());
 				request.setAttribute("numero", aluno.getEndereco().getNumero());

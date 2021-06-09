@@ -54,18 +54,17 @@ public class CursoDAO extends AbstractDAO{
 			@Override
 			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "select * from aluno where id_aluno = ?";
+				String sql = "select * from curso where curso_aluno = ?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
 				ResultSet rs = pst.executeQuery();
-				
+				Curso curso = new Curso();
 				while(rs.next()) {
-					aluno.setId(Integer.parseInt(rs.getString(1)));
-					aluno.setNome(rs.getString(2));
-					aluno.setDataNascimento(rs.getString(3));
-//					aluno.setFone(rs.getString(3));
-//					aluno.setEmail(rs.getString(4));
+					curso.setId(Integer.parseInt(rs.getString(1)));
+					curso.setDescricao(rs.getString(2));
+					curso.setPeriodo(rs.getString(3));
+					aluno.setCurso(curso);
 				}
 				return null;
 			}

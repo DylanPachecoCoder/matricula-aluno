@@ -54,18 +54,18 @@ public class SemestreDAO extends AbstractDAO{
 			@Override
 			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "select * from aluno where id_aluno = ?";
+				String sql = "select * from semestre where semestre_aluno = ?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
 				ResultSet rs = pst.executeQuery();
+				Semestre semestre = new Semestre();
 				
 				while(rs.next()) {
-					aluno.setId(Integer.parseInt(rs.getString(1)));
-					aluno.setNome(rs.getString(2));
-					aluno.setDataNascimento(rs.getString(3));
-//					aluno.setFone(rs.getString(3));
-//					aluno.setEmail(rs.getString(4));
+					semestre.setId(Integer.parseInt(rs.getString(1)));
+					semestre.setAno(rs.getString(2));
+					semestre.setSemestreEnum(rs.getString(3));
+					aluno.setSemestreInicial(semestre);
 				}
 				return null;
 			}

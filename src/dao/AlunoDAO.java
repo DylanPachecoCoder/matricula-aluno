@@ -121,13 +121,17 @@ public class AlunoDAO extends AbstractDAO{
 				sql
 				.append("update aluno set ")
 				.append("nome_aluno=?, ")
+				.append("cpf_aluno=?, ")
+				.append("rg_aluno=?, ")
 				.append("dt_nasc_aluno=? ")
 				.append(" where id_aluno=?");
 						
 				pst = connection.prepareStatement(sql.toString());
 				pst.setString(1, aluno.getNome());
-				pst.setString(2, aluno.getDataNascimento());
-				pst.setInt(3, aluno.getId());
+				pst.setString(2, aluno.getCpf());
+				pst.setString(3, aluno.getRg());
+				pst.setString(4, aluno.getDataNascimento());
+				pst.setInt(5, aluno.getId());
 				pst.executeQuery();
 				return true;
 			}
@@ -189,7 +193,13 @@ public class AlunoDAO extends AbstractDAO{
 					aluno.setDataNascimento(dataNascimento);
 					aluno.setCpf(cpf);
 					aluno.setRg(rg);
-					alunos.add(aluno);	
+					alunos.add(aluno);
+					
+					IDAO semestreDAO = new SemestreDAO();
+					semestreDAO.selecionar(aluno);
+					
+					IDAO cursoDAO = new CursoDAO();
+					cursoDAO.selecionar(aluno);
 				}
 				return true;
 			}

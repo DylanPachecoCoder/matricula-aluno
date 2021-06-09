@@ -32,6 +32,8 @@ public class VhAtualizarAluno implements IViewHelper {
 		Aluno aluno = new Aluno();
 		aluno.setId(Integer.parseInt(request.getParameter("id")));
 		aluno.setNome(request.getParameter("nome"));
+		aluno.setCpf(request.getParameter("cpf"));
+		aluno.setRg(request.getParameter("rg"));
 		aluno.setDataNascimento(request.getParameter("dt_Nasc"));
 		aluno.setEndereco(endereco);
 		return aluno;

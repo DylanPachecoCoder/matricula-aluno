@@ -27,7 +27,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public Object salvar(EntidadeDominio entidade) {
-		String msg = executarRegras(entidade);
+		String msg = executarRegras(entidade, "salvar");
 		String nmClasse = entidade.getClass().getName();
 		if (msg == null) {
 			IDAO dao = daos.get(nmClasse);
@@ -46,7 +46,16 @@ public class Facade implements IFacade {
 
 	@Override
 	public Object atualizar(EntidadeDominio entidade) {
-		dao.alterar(entidade);
+//		dao.alterar(entidade);
+		
+		String msg = executarRegras(entidade, "atualizar");
+		String nmClasse = entidade.getClass().getName();
+		if (msg == null) {
+			IDAO dao = daos.get(nmClasse);
+			dao.alterar(entidade);
+		} else {
+			return msg;
+		}
 		return null;
 	}
 
@@ -76,12 +85,19 @@ public class Facade implements IFacade {
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
 		ValidadorExistencia vExistencia = new ValidadorExistencia();
 
-		List<IStrategy> rnsAluno = new ArrayList<IStrategy>();
-		rnsAluno.add(vAluno);
-		rnsAluno.add(vCpf);		
-		rnsAluno.add(vExistencia);
-		rnsAluno.add(cDtCadastro);
-		rns.put(Aluno.class.getName(), rnsAluno);
+		List<IStrategy> rnsSalvaAluno = new ArrayList<IStrategy>();
+		rnsSalvaAluno.add(vAluno);
+		rnsSalvaAluno.add(vCpf);		
+		rnsSalvaAluno.add(vExistencia);
+		rnsSalvaAluno.add(cDtCadastro);
+		
+		List<IStrategy> rnsAtualizaAluno = new ArrayList<IStrategy>();
+		rnsAtualizaAluno.add(vAluno);
+		rnsAtualizaAluno.add(vCpf);
+		rnsAtualizaAluno.add(vExistencia);
+		rnsAtualizaAluno.add(cDtCadastro);
+		rns.put("salvar", rnsSalvaAluno);
+		rns.put("atualizar", rnsAtualizaAluno);
 	}
 
 	private void definirDAOS() {
@@ -89,11 +105,10 @@ public class Facade implements IFacade {
 		daos.put(Aluno.class.getName(), new AlunoDAO());		
 	}
 	
-	private String executarRegras(EntidadeDominio entidade) {
-		String nmClasse = entidade.getClass().getName();
+	private String executarRegras(EntidadeDominio entidade, String chaveValidacao) {
 		StringBuilder msg = new StringBuilder();
 
-		List<IStrategy> regras = rns.get(nmClasse);
+		List<IStrategy> regras = rns.get(chaveValidacao);
 
 		if (regras != null) {
 			for (IStrategy s : regras) {
