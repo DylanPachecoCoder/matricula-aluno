@@ -27,15 +27,12 @@ public class AlunoDAO extends AbstractDAO{
 				IDAO cursoDAO = new CursoDAO();
 				cursoDAO.salvar(aluno.getCurso());
 				
-				IDAO semestreDAO = new SemestreDAO();
-				semestreDAO.salvar(aluno.getSemestreInicial());
-				
 				connection = Conexao.getConnectionPostgres();	
 				connection.setAutoCommit(false);	
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno, aluno_curso, aluno_semestre)");
-				sql.append("VALUES (?, ?, ?, ?, ?, ?)");		
+				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno, aluno_curso)");
+				sql.append("VALUES (?, ?, ?, ?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
@@ -44,7 +41,6 @@ public class AlunoDAO extends AbstractDAO{
 				pst.setString(3, aluno.getRg());
 				pst.setString(4, aluno.getCpf());
 				pst.setInt(5, aluno.getCurso().getId());
-				pst.setInt(6, aluno.getSemestreInicial().getId());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
@@ -56,6 +52,9 @@ public class AlunoDAO extends AbstractDAO{
 				
 				IDAO enderecoDAO = new EnderecoDAO();
 				enderecoDAO.salvar(aluno);
+				
+				IDAO semestreDAO = new SemestreDAO();
+				semestreDAO.salvar(aluno);
 			}
 			
 		});
@@ -74,7 +73,7 @@ public class AlunoDAO extends AbstractDAO{
 				sql.append("Select * from aluno ")
 				.append("INNER JOIN endereco ON endereco.endereco_aluno = aluno.id_aluno ")
 				.append("LEFT JOIN curso ON curso.id_curso = aluno.aluno_curso ")
-				.append("LEFT JOIN semestre ON semestre.id_semestre = aluno.aluno_semestre ")
+				.append("LEFT JOIN semestre ON semestre.semestre_aluno = aluno.id_aluno ")
 				.append("LEFT JOIN materia ON materia.materia_curso = curso.id_curso ")
 				.append("LEFT JOIN professor ON professor.id_professor = materia.materia_professor ")
 				.append("where aluno.id_aluno = ?");
@@ -139,7 +138,6 @@ public class AlunoDAO extends AbstractDAO{
 	@Override
 	public void deletar(EntidadeDominio entidadeDominio) {
 		Aluno aluno = (Aluno)entidadeDominio;
-		System.out.println(aluno.getId());
 		
 		executa(new IExecutaQuery(){
 
@@ -149,9 +147,11 @@ public class AlunoDAO extends AbstractDAO{
 				IDAO enderecoDAO = new EnderecoDAO();
 				enderecoDAO.deletar(aluno);
 				
+				IDAO semestreDAO = new SemestreDAO();
+				semestreDAO.deletar(aluno);
+				
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "delete from aluno where id_aluno=?";
-						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
 				pst.executeQuery();

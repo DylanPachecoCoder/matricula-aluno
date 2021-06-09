@@ -14,7 +14,8 @@ public class SemestreDAO extends AbstractDAO{
 
 	@Override
 	public void salvar(EntidadeDominio entidadeDominio) {
-		Semestre semestre = (Semestre)entidadeDominio;
+		Aluno aluno = (Aluno)entidadeDominio;
+		Semestre semestre = aluno.getSemestreInicial();
 		executa(new IExecutaQuery() {
 
 			@Override
@@ -23,13 +24,14 @@ public class SemestreDAO extends AbstractDAO{
 				connection.setAutoCommit(false);				
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO semestre(ano_semestre, sem_semestre)");
-				sql.append("VALUES (?, ?)");		
+				sql.append("INSERT INTO semestre(ano_semestre, sem_semestre, semestre_aluno)");
+				sql.append("VALUES (?, ?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
-				pst.setString(1, String.valueOf(semestre.getAno()));
+				pst.setString(1, semestre.getAno());
 				pst.setString(2, semestre.getSemestreEnum());
+				pst.setInt(3, aluno.getId());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
@@ -100,7 +102,7 @@ public class SemestreDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "delete from aluno where id_aluno=?";
+				String sql = "delete from semestre where semestre_aluno=?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
