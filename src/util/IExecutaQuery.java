@@ -4,6 +4,6 @@ import java.sql.SQLException;
 
 public interface IExecutaQuery {
 	
-	public void executa() throws ClassNotFoundException, SQLException;
+	public Boolean executa() throws ClassNotFoundException, SQLException;
 
 }

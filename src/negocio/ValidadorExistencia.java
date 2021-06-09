@@ -1,16 +1,21 @@
 package negocio;
 
+import dao.AlunoDAO;
+import dominio.Aluno;
 import dominio.EntidadeDominio;
 
 public class ValidadorExistencia implements IStrategy {
 
 	@Override
 	public String processar(EntidadeDominio entidade) {
-//		IDAO dao = new AlunoDAO();
-//		List<EntidadeDominio> alunos = dao.listar(entidade);
-//		if(alunos != null && alunos.size()>0) {
-//			return "Cliente já cadastrado!";
-//		}
+		AlunoDAO dao = new AlunoDAO();
+		
+		Boolean usuarioExistente = dao.consultarPorCpf(entidade);
+		
+		if(usuarioExistente) {
+			return "Cliente já cadastrado<br>";
+		}
+		
 		return null;
 	}
 

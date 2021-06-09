@@ -19,7 +19,7 @@ public class CursoDAO extends AbstractDAO{
 		executa(new IExecutaQuery() {
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();	
 				connection.setAutoCommit(false);				
 						
@@ -38,7 +38,8 @@ public class CursoDAO extends AbstractDAO{
 				if(rs.next())
 					curso.setId(rs.getInt(1));
 				
-				connection.commit();	
+				connection.commit();
+				return null;	
 			}
 			
 		});
@@ -51,7 +52,7 @@ public class CursoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "select * from aluno where id_aluno = ?";
 						
@@ -66,6 +67,7 @@ public class CursoDAO extends AbstractDAO{
 //					aluno.setFone(rs.getString(3));
 //					aluno.setEmail(rs.getString(4));
 				}
+				return null;
 			}
 			
 		});
@@ -78,7 +80,7 @@ public class CursoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "update aluno set nome_aluno=? where id_aluno=?";
 						
@@ -88,6 +90,7 @@ public class CursoDAO extends AbstractDAO{
 //				pst.setString(3, aluno.getEmail());
 				pst.setInt(2, aluno.getId());
 				pst.executeQuery();
+				return null;
 			}
 		});
 	}
@@ -99,7 +102,7 @@ public class CursoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "delete from curso where curso_aluno=?";
 						
@@ -107,6 +110,7 @@ public class CursoDAO extends AbstractDAO{
 				pst.setInt(1, aluno.getId());
 				pst.executeQuery();
 				connection.commit();
+				return null;
 			}
 		});		
 	}
@@ -118,7 +122,7 @@ public class CursoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "select * from aluno order by nome_aluno";
 						
@@ -139,6 +143,7 @@ public class CursoDAO extends AbstractDAO{
 					aluno.setRg(rg);
 					alunos.add(aluno);	
 				}
+				return null;
 			}
 		});
 		return alunos;

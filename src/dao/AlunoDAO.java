@@ -8,12 +8,9 @@ import util.Conexao;
 import util.IExecutaQuery;
 import dominio.Aluno;
 import dominio.Cidade;
-import dominio.Curso;
 import dominio.Endereco;
 import dominio.EntidadeDominio;
 import dominio.Estado;
-import dominio.Semestre;
-import dominio.TipoEndereco;
 
 public class AlunoDAO extends AbstractDAO{
 
@@ -23,7 +20,7 @@ public class AlunoDAO extends AbstractDAO{
 		executa(new IExecutaQuery() {
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {	
+			public Boolean executa() throws ClassNotFoundException, SQLException {	
 				connection = Conexao.getConnectionPostgres();	
 				connection.setAutoCommit(false);	
 						
@@ -54,6 +51,7 @@ public class AlunoDAO extends AbstractDAO{
 				
 				IDAO cursoDAO = new CursoDAO();
 				cursoDAO.salvar(aluno);
+				return true;
 			}
 			
 		});
@@ -66,7 +64,7 @@ public class AlunoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
 				StringBuilder sql = new StringBuilder();
 				sql.append("Select * from aluno ")
@@ -94,12 +92,13 @@ public class AlunoDAO extends AbstractDAO{
 					Endereco endereco = new Endereco();
 					endereco.setLogradouro(rs.getString("logradouro"));
 					endereco.setCep(rs.getString("cep"));
-					endereco.setNumero(Integer.valueOf(rs.getString("numero")));
+					endereco.setNumero(rs.getString("numero"));
 					endereco.setComplemento(rs.getString("complemento"));
 					endereco.setCidade(cidade);
 					endereco.setTpEndereco(rs.getString("tp_endereco"));
 					aluno.setEndereco(endereco);
 				}
+				return true;
 			}
 		});
 	}
@@ -111,7 +110,7 @@ public class AlunoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				
 				IDAO enderecoDAO = new EnderecoDAO();
 				enderecoDAO.alterar(aluno);
@@ -130,6 +129,7 @@ public class AlunoDAO extends AbstractDAO{
 				pst.setString(2, aluno.getDataNascimento());
 				pst.setInt(3, aluno.getId());
 				pst.executeQuery();
+				return true;
 			}
 		});
 	}
@@ -141,7 +141,7 @@ public class AlunoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				
 				IDAO enderecoDAO = new EnderecoDAO();
 				enderecoDAO.deletar(aluno);
@@ -158,6 +158,7 @@ public class AlunoDAO extends AbstractDAO{
 				pst.setInt(1, aluno.getId());
 				pst.executeQuery();
 				connection.commit();
+				return true;
 			}
 		});		
 	}
@@ -169,7 +170,7 @@ public class AlunoDAO extends AbstractDAO{
 		executa(new IExecutaQuery(){
 
 			@Override
-			public void executa() throws ClassNotFoundException, SQLException {
+			public Boolean executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "select * from aluno order by nome_aluno";
 						
@@ -190,8 +191,33 @@ public class AlunoDAO extends AbstractDAO{
 					aluno.setRg(rg);
 					alunos.add(aluno);	
 				}
+				return true;
 			}
+			
 		});
 		return alunos;
+	}
+	
+	
+	public Boolean consultarPorCpf(EntidadeDominio entidadeDominio) {
+		Aluno aluno = (Aluno)entidadeDominio;
+		
+		return executa(new IExecutaQuery(){
+
+			@Override
+			public Boolean executa() throws ClassNotFoundException, SQLException {
+				connection = Conexao.getConnectionPostgres();					
+				StringBuilder sql = new StringBuilder();
+				sql.append("Select * from aluno ")
+				.append("where aluno.cpf_aluno = ?");
+				
+						
+				pst = connection.prepareStatement(sql.toString());
+				pst.setString(1, aluno.getCpf());
+				ResultSet rs = pst.executeQuery();
+		
+				return rs.next();		
+			}
+		});
 	}
 }

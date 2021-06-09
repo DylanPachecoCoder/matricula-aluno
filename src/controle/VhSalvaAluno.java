@@ -34,18 +34,18 @@ public class VhSalvaAluno implements IViewHelper {
 		
 		Estado estado = new Estado("SP");
 		Cidade cidade = new Cidade("Poá", estado);
-		Endereco endereco = new Endereco("casa", 366, "08560050", "", cidade, "Casa");
+		Endereco endereco = new Endereco("casa", "366", "08560050", "", cidade, "Casa");
 		Semestre semestre = new Semestre("2021", "1");
 		Curso curso = new Curso("ADS", "NOTURNO");
-		Aluno aluno = new Aluno("Dylan", "08/12/1995", endereco, "123456", "654321", semestre, curso);
+		Aluno aluno = new Aluno("Dylan", "08/12/1995", endereco, "12345678910", "12345678910", semestre, curso);
 		
-		
+//		
 //		Estado estado = new Estado(request.getParameter("estado"));
 //		Cidade cidade = new Cidade(request.getParameter("cidade"), estado);
 //		Endereco endereco = new Endereco();
 //		endereco.setLogradouro(request.getParameter("logradouro"));
 //		endereco.setCep(request.getParameter("cep"));
-//		endereco.setNumero(Integer.valueOf(request.getParameter("numero")));
+//		endereco.setNumero(request.getParameter("numero"));
 //		endereco.setComplemento(request.getParameter("complemento"));
 //		endereco.setCidade(cidade);
 //		endereco.setTpEndereco(request.getParameter("tipoEndereco"));

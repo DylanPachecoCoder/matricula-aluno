@@ -24,7 +24,7 @@ public class VhAtualizarAluno implements IViewHelper {
 		Endereco endereco = new Endereco();
 		endereco.setLogradouro(request.getParameter("logradouro"));
 		endereco.setCep(request.getParameter("cep"));
-		endereco.setNumero(Integer.valueOf(request.getParameter("numero")));
+		endereco.setNumero(request.getParameter("numero"));
 		endereco.setComplemento(request.getParameter("complemento"));
 		endereco.setCidade(cidade);
 		endereco.setTpEndereco(request.getParameter("tipoEndereco"));

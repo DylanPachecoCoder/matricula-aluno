@@ -10,9 +10,9 @@ public abstract class AbstractDAO implements IDAO{
 	public static Connection connection;
 	public static PreparedStatement pst;
 
-	public void executa(IExecutaQuery executaQuery) {
+	public Boolean executa(IExecutaQuery executaQuery) {
 		try {
-			executaQuery.executa();
+			return executaQuery.executa();
 		} catch (SQLException | ClassNotFoundException e) {
 			try {
 				connection.rollback();
@@ -28,5 +28,6 @@ public abstract class AbstractDAO implements IDAO{
 				e.printStackTrace();
 			}
 		}
+		return null;
 	}
 }
