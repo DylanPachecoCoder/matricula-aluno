@@ -14,7 +14,8 @@ public class EnderecoDAO extends AbstractDAO{
 
 	@Override
 	public void salvar(EntidadeDominio entidadeDominio) {
-		Endereco endereco = (Endereco)entidadeDominio;
+		Aluno aluno = (Aluno)entidadeDominio;
+		Endereco endereco = aluno.getEndereco();
 		executa(new IExecutaQuery() {
 
 			@Override
@@ -23,8 +24,8 @@ public class EnderecoDAO extends AbstractDAO{
 				connection.setAutoCommit(false);				
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO endereco(logradouro, cep, numero, complemento, tp_endereco, cidade, estado)");
-				sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");		
+				sql.append("INSERT INTO endereco(logradouro, cep, numero, complemento, tp_endereco, cidade, estado, endereco_aluno)");
+				sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
@@ -35,6 +36,7 @@ public class EnderecoDAO extends AbstractDAO{
 				pst.setString(5, endereco.getTpEndereco().toString());
 				pst.setString(6, endereco.getCidade().getDescricao());
 				pst.setString(7, endereco.getCidade().getEstado().getDescricao());
+				pst.setInt(8, aluno.getId());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
@@ -76,21 +78,37 @@ public class EnderecoDAO extends AbstractDAO{
 	
 	@Override
 	public void alterar(EntidadeDominio entidadeDominio) {
-		Aluno aluno = (Aluno)entidadeDominio;
+		Aluno aluno = (Aluno) entidadeDominio;
+		Endereco endereco = aluno.getEndereco();
 		
 		executa(new IExecutaQuery(){
 
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
-				connection = Conexao.getConnectionPostgres();					
-				String sql = "update aluno set nome_aluno=? where id_aluno=?";
+				connection = Conexao.getConnectionPostgres();
+				
+				StringBuilder sql = new StringBuilder();
+				sql
+				.append("update endereco set ")
+				.append("logradouro=?, ")
+				.append("cep=?, ")
+				.append("numero=?, ")
+				.append("complemento=?, ")
+				.append("cidade=?, ")
+				.append("estado=? ")
+				.append("where endereco_aluno=?");
 						
-				pst = connection.prepareStatement(sql);
-				pst.setString(1, aluno.getNome());
-//				pst.setString(2, aluno.getDataNascimento());
-//				pst.setString(3, aluno.getEmail());
-				pst.setInt(2, aluno.getId());
+				pst = connection.prepareStatement(sql.toString());
+				pst.setString(1, endereco.getLogradouro());
+				pst.setString(2, endereco.getCep());
+				pst.setInt(3, endereco.getNumero());
+				pst.setString(4, endereco.getComplemento());
+				pst.setString(5, endereco.getCidade().getDescricao());
+				pst.setString(6, endereco.getCidade().getEstado().getDescricao());
+				pst.setInt(7, aluno.getId());
 				pst.executeQuery();
+				
+				connection.commit();	
 			}
 		});
 	}
@@ -105,7 +123,7 @@ public class EnderecoDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "delete from aluno where id_aluno=?";
+				String sql = "delete from endereco where endereco_aluno=?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());

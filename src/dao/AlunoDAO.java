@@ -30,15 +30,12 @@ public class AlunoDAO extends AbstractDAO{
 				IDAO semestreDAO = new SemestreDAO();
 				semestreDAO.salvar(aluno.getSemestreInicial());
 				
-				IDAO enderecoDAO = new EnderecoDAO();
-				enderecoDAO.salvar(aluno.getEndereco());
-				
 				connection = Conexao.getConnectionPostgres();	
 				connection.setAutoCommit(false);	
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno, aluno_curso, aluno_semestre, endereco_aluno)");
-				sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");		
+				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno, aluno_curso, aluno_semestre)");
+				sql.append("VALUES (?, ?, ?, ?, ?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
@@ -48,7 +45,6 @@ public class AlunoDAO extends AbstractDAO{
 				pst.setString(4, aluno.getCpf());
 				pst.setInt(5, aluno.getCurso().getId());
 				pst.setInt(6, aluno.getSemestreInicial().getId());
-				pst.setInt(7, aluno.getEndereco().getId());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
@@ -56,6 +52,10 @@ public class AlunoDAO extends AbstractDAO{
 					aluno.setId(rs.getInt(1));
 				
 				connection.commit();	
+				
+				
+				IDAO enderecoDAO = new EnderecoDAO();
+				enderecoDAO.salvar(aluno);
 			}
 			
 		});
@@ -72,22 +72,13 @@ public class AlunoDAO extends AbstractDAO{
 				connection = Conexao.getConnectionPostgres();					
 				StringBuilder sql = new StringBuilder();
 				sql.append("Select * from aluno ")
-				.append("INNER JOIN endereco ON endereco.id_endereco = aluno.endereco_aluno ")
+				.append("INNER JOIN endereco ON endereco.endereco_aluno = aluno.id_aluno ")
 				.append("LEFT JOIN curso ON curso.id_curso = aluno.aluno_curso ")
 				.append("LEFT JOIN semestre ON semestre.id_semestre = aluno.aluno_semestre ")
 				.append("LEFT JOIN materia ON materia.materia_curso = curso.id_curso ")
 				.append("LEFT JOIN professor ON professor.id_professor = materia.materia_professor ")
 				.append("where aluno.id_aluno = ?");
 				
-						
-//						"select * from aluno where id_aluno = ?";
-				
-//				Select*from aluno  
-//			     INNER JOIN endereco ON endereco.id_endereco = aluno.endereco_aluno
-//				 LEFT JOIN curso ON curso.id_curso = aluno.aluno_curso
-//				 LEFT JOIN semestre ON semestre.id_semestre = aluno.aluno_semestre
-//				 LEFT JOIN materia ON materia.materia_curso = curso.id_curso
-//				 LEFT JOIN professor ON professor.id_professor = materia.materia_professor
 						
 				pst = connection.prepareStatement(sql.toString());
 				pst.setInt(1, aluno.getId());
@@ -109,46 +100,9 @@ public class AlunoDAO extends AbstractDAO{
 					endereco.setComplemento(rs.getString("complemento"));
 					endereco.setCidade(cidade);
 					endereco.setTpEndereco(rs.getString("tp_endereco"));
-					
 					aluno.setEndereco(endereco);
-					
-//					aluno.setDataNascimento(rs.getString(6));
-//					aluno.setDataNascimento(rs.getString(3));
-//					aluno.setDataNascimento(rs.getString(3));
-//					aluno.setDataNascimento(rs.getString(3));
-//					aluno.setFone(rs.getString(3));
-//					aluno.setEmail(rs.getString(4));
 				}
 			}
-			
-//			Estado estado = new Estado(request.getParameter("estado"));
-//			Cidade cidade = new Cidade(request.getParameter("cidade"), estado);
-//			Endereco endereco = new Endereco();
-//			endereco.setLogradouro(request.getParameter("logradouro"));
-//			endereco.setCep(request.getParameter("cep"));
-//			endereco.setNumero(Integer.valueOf(request.getParameter("numero")));
-//			endereco.setComplemento(request.getParameter("complemento"));
-//			endereco.setCidade(cidade);
-//			endereco.setTpEndereco(TipoEndereco.APARTAMENTO);
-//			
-//			Curso curso = new Curso();
-//			curso.setDescricao(request.getParameter("curso"));
-//			curso.setPeriodo(request.getParameter("periodo"));
-//			
-//			Semestre semestre = new Semestre();
-//			semestre.setAno(request.getParameter("Ano"));
-//			semestre.setSemestreEnum(request.getParameter("semestre"));
-//			
-//			
-//			Aluno aluno = new Aluno();
-//			aluno.setNome(request.getParameter("nome"));
-//			aluno.setDataNascimento(request.getParameter("dt_Nasc"));
-//			aluno.setCpf(request.getParameter("cpf"));
-//			aluno.setRg(request.getParameter("rg"));
-//			aluno.setSemestreInicial(semestre);
-//			aluno.setEndereco(endereco);
-//			aluno.setCurso(curso);
-			
 		});
 	}
 	
@@ -160,14 +114,23 @@ public class AlunoDAO extends AbstractDAO{
 
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
+				
+				IDAO enderecoDAO = new EnderecoDAO();
+				enderecoDAO.alterar(aluno);
+				
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "update aluno set nome_aluno=? where id_aluno=?";
+				
+				StringBuilder sql = new StringBuilder();
+				sql
+				.append("update aluno set ")
+				.append("nome_aluno=?, ")
+				.append("dt_nasc_aluno=? ")
+				.append(" where id_aluno=?");
 						
-				pst = connection.prepareStatement(sql);
+				pst = connection.prepareStatement(sql.toString());
 				pst.setString(1, aluno.getNome());
-//				pst.setString(2, aluno.getDataNascimento());
-//				pst.setString(3, aluno.getEmail());
-				pst.setInt(2, aluno.getId());
+				pst.setString(2, aluno.getDataNascimento());
+				pst.setInt(3, aluno.getId());
 				pst.executeQuery();
 			}
 		});
@@ -182,6 +145,10 @@ public class AlunoDAO extends AbstractDAO{
 
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
+				
+				IDAO enderecoDAO = new EnderecoDAO();
+				enderecoDAO.deletar(aluno);
+				
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "delete from aluno where id_aluno=?";
 						
