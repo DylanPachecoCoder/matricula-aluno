@@ -6,12 +6,12 @@ public class Endereco extends EntidadeDominio {
 	private String cep;
 	private String complemento;
 	private Cidade cidade;
-	private TipoEndereco tpEndereco;
+	private String tpEndereco;
 	
 	public Endereco() {}
 	
 	public Endereco(String logradouro, int numero, String cep, 
-			String complemento, Cidade cidade, TipoEndereco tpEndereco) {
+			String complemento, Cidade cidade, String tpEndereco) {
 		this.logradouro = logradouro;
 		this.numero = numero;
 		this.cep = cep;
@@ -20,11 +20,11 @@ public class Endereco extends EntidadeDominio {
 		this.tpEndereco = tpEndereco;
 	}
 
-	public TipoEndereco getTpEndereco() {
+	public String getTpEndereco() {
 		return tpEndereco;
 	}
 
-	public void setTpEndereco(TipoEndereco tpEndereco) {
+	public void setTpEndereco(String tpEndereco) {
 		this.tpEndereco = tpEndereco;
 	}
 

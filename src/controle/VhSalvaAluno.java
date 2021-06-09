@@ -51,7 +51,7 @@ public class VhSalvaAluno implements IViewHelper {
 		endereco.setNumero(Integer.valueOf(request.getParameter("numero")));
 		endereco.setComplemento(request.getParameter("complemento"));
 		endereco.setCidade(cidade);
-		endereco.setTpEndereco(TipoEndereco.APARTAMENTO);
+		endereco.setTpEndereco(request.getParameter("tipoEndereco"));
 		
 		Curso curso = new Curso();
 		curso.setDescricao(request.getParameter("curso"));

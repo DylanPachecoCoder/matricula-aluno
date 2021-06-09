@@ -7,7 +7,13 @@ import java.util.ArrayList;
 import util.Conexao;
 import util.IExecutaQuery;
 import dominio.Aluno;
+import dominio.Cidade;
+import dominio.Curso;
+import dominio.Endereco;
 import dominio.EntidadeDominio;
+import dominio.Estado;
+import dominio.Semestre;
+import dominio.TipoEndereco;
 
 public class AlunoDAO extends AbstractDAO{
 
@@ -64,20 +70,84 @@ public class AlunoDAO extends AbstractDAO{
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "select * from aluno where id_aluno = ?";
+				StringBuilder sql = new StringBuilder();
+				sql.append("Select * from aluno ")
+				.append("INNER JOIN endereco ON endereco.id_endereco = aluno.endereco_aluno ")
+				.append("LEFT JOIN curso ON curso.id_curso = aluno.aluno_curso ")
+				.append("LEFT JOIN semestre ON semestre.id_semestre = aluno.aluno_semestre ")
+				.append("LEFT JOIN materia ON materia.materia_curso = curso.id_curso ")
+				.append("LEFT JOIN professor ON professor.id_professor = materia.materia_professor ")
+				.append("where aluno.id_aluno = ?");
+				
 						
-				pst = connection.prepareStatement(sql);
+//						"select * from aluno where id_aluno = ?";
+				
+//				Select*from aluno  
+//			     INNER JOIN endereco ON endereco.id_endereco = aluno.endereco_aluno
+//				 LEFT JOIN curso ON curso.id_curso = aluno.aluno_curso
+//				 LEFT JOIN semestre ON semestre.id_semestre = aluno.aluno_semestre
+//				 LEFT JOIN materia ON materia.materia_curso = curso.id_curso
+//				 LEFT JOIN professor ON professor.id_professor = materia.materia_professor
+						
+				pst = connection.prepareStatement(sql.toString());
 				pst.setInt(1, aluno.getId());
 				ResultSet rs = pst.executeQuery();
 				
 				while(rs.next()) {
-					aluno.setId(Integer.parseInt(rs.getString(1)));
-					aluno.setNome(rs.getString(2));
-					aluno.setDataNascimento(rs.getString(3));
+					aluno.setId(Integer.parseInt(rs.getString("id_aluno")));
+					aluno.setNome(rs.getString("nome_aluno"));
+					aluno.setDataNascimento(rs.getString("dt_nasc_aluno"));
+					aluno.setRg(rs.getString("rg_aluno"));
+					aluno.setCpf(rs.getString("cpf_aluno"));
+					
+					Estado estado = new Estado(rs.getString("estado"));
+					Cidade cidade = new Cidade(rs.getString("cidade"), estado);
+					Endereco endereco = new Endereco();
+					endereco.setLogradouro(rs.getString("logradouro"));
+					endereco.setCep(rs.getString("cep"));
+					endereco.setNumero(Integer.valueOf(rs.getString("numero")));
+					endereco.setComplemento(rs.getString("complemento"));
+					endereco.setCidade(cidade);
+					endereco.setTpEndereco(rs.getString("tp_endereco"));
+					
+					aluno.setEndereco(endereco);
+					
+//					aluno.setDataNascimento(rs.getString(6));
+//					aluno.setDataNascimento(rs.getString(3));
+//					aluno.setDataNascimento(rs.getString(3));
+//					aluno.setDataNascimento(rs.getString(3));
 //					aluno.setFone(rs.getString(3));
 //					aluno.setEmail(rs.getString(4));
 				}
 			}
+			
+//			Estado estado = new Estado(request.getParameter("estado"));
+//			Cidade cidade = new Cidade(request.getParameter("cidade"), estado);
+//			Endereco endereco = new Endereco();
+//			endereco.setLogradouro(request.getParameter("logradouro"));
+//			endereco.setCep(request.getParameter("cep"));
+//			endereco.setNumero(Integer.valueOf(request.getParameter("numero")));
+//			endereco.setComplemento(request.getParameter("complemento"));
+//			endereco.setCidade(cidade);
+//			endereco.setTpEndereco(TipoEndereco.APARTAMENTO);
+//			
+//			Curso curso = new Curso();
+//			curso.setDescricao(request.getParameter("curso"));
+//			curso.setPeriodo(request.getParameter("periodo"));
+//			
+//			Semestre semestre = new Semestre();
+//			semestre.setAno(request.getParameter("Ano"));
+//			semestre.setSemestreEnum(request.getParameter("semestre"));
+//			
+//			
+//			Aluno aluno = new Aluno();
+//			aluno.setNome(request.getParameter("nome"));
+//			aluno.setDataNascimento(request.getParameter("dt_Nasc"));
+//			aluno.setCpf(request.getParameter("cpf"));
+//			aluno.setRg(request.getParameter("rg"));
+//			aluno.setSemestreInicial(semestre);
+//			aluno.setEndereco(endereco);
+//			aluno.setCurso(curso);
 			
 		});
 	}

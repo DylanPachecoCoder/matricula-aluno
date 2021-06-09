@@ -29,6 +29,17 @@ public class VhBuscarAluno implements IViewHelper {
 				request.setAttribute("id", aluno.getId());
 				request.setAttribute("nome", aluno.getNome());
 				request.setAttribute("dataNascimento", aluno.getDataNascimento());
+				request.setAttribute("logradouro", aluno.getEndereco().getLogradouro());
+				request.setAttribute("cep", aluno.getEndereco().getCep());
+				request.setAttribute("numero", aluno.getEndereco().getNumero());
+				request.setAttribute("cidade", aluno.getEndereco().getCidade().getDescricao());
+				request.setAttribute("estado", aluno.getEndereco().getCidade().getEstado().getDescricao());
+				
+				if(aluno.getEndereco().getComplemento().equals("")) {
+					request.setAttribute("complemento", "Complemento");
+				}else {
+					request.setAttribute("complemento", aluno.getEndereco().getComplemento());
+				}
 				
 				RequestDispatcher rd = request.getRequestDispatcher("editar.jsp");
 				rd.forward(request, response);
