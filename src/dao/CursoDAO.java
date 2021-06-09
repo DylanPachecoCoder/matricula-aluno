@@ -14,7 +14,8 @@ public class CursoDAO extends AbstractDAO{
 
 	@Override
 	public void salvar(EntidadeDominio entidadeDominio) {
-		Curso curso = (Curso)entidadeDominio;
+		Aluno aluno = (Aluno) entidadeDominio;
+		Curso curso = aluno.getCurso();
 		executa(new IExecutaQuery() {
 
 			@Override
@@ -23,14 +24,14 @@ public class CursoDAO extends AbstractDAO{
 				connection.setAutoCommit(false);				
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO curso(descricao_curso, periodo_curso )");
-				sql.append("VALUES (?, ?)");		
+				sql.append("INSERT INTO curso(descricao_curso, periodo_curso, curso_aluno)");
+				sql.append("VALUES (?, ?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
 				pst.setString(1, curso.getDescricao());
 				pst.setString(2, curso.getPeriodo().toString());
-//				pst.setString(3, aluno.getEmail());
+				pst.setInt(3, aluno.getId());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
@@ -94,18 +95,18 @@ public class CursoDAO extends AbstractDAO{
 	@Override
 	public void deletar(EntidadeDominio entidadeDominio) {
 		Aluno aluno = (Aluno)entidadeDominio;
-		System.out.println(aluno.getId());
 		
 		executa(new IExecutaQuery(){
 
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {
 				connection = Conexao.getConnectionPostgres();					
-				String sql = "delete from aluno where id_aluno=?";
+				String sql = "delete from curso where curso_aluno=?";
 						
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
 				pst.executeQuery();
+				connection.commit();
 			}
 		});		
 	}

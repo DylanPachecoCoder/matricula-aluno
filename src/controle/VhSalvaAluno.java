@@ -36,7 +36,7 @@ public class VhSalvaAluno implements IViewHelper {
 		Cidade cidade = new Cidade("Poá", estado);
 		Endereco endereco = new Endereco("casa", 366, "08560050", "", cidade, "Casa");
 		Semestre semestre = new Semestre("2021", "1");
-		Curso curso = new Curso("ADS", "");
+		Curso curso = new Curso("ADS", "NOTURNO");
 		Aluno aluno = new Aluno("Dylan", "08/12/1995", endereco, "123456", "654321", semestre, curso);
 		
 		

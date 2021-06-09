@@ -84,8 +84,6 @@ public class SemestreDAO extends AbstractDAO{
 						
 				pst = connection.prepareStatement(sql);
 				pst.setString(1, aluno.getNome());
-//				pst.setString(2, aluno.getDataNascimento());
-//				pst.setString(3, aluno.getEmail());
 				pst.setInt(2, aluno.getId());
 				pst.executeQuery();
 			}
@@ -95,7 +93,6 @@ public class SemestreDAO extends AbstractDAO{
 	@Override
 	public void deletar(EntidadeDominio entidadeDominio) {
 		Aluno aluno = (Aluno)entidadeDominio;
-		System.out.println(aluno.getId());
 		
 		executa(new IExecutaQuery(){
 
@@ -107,6 +104,7 @@ public class SemestreDAO extends AbstractDAO{
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
 				pst.executeQuery();
+				connection.commit();
 			}
 		});		
 	}

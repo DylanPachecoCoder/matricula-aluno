@@ -68,8 +68,6 @@ public class EnderecoDAO extends AbstractDAO{
 					aluno.setId(Integer.parseInt(rs.getString(1)));
 					aluno.setNome(rs.getString(2));
 					aluno.setDataNascimento(rs.getString(3));
-//					aluno.setFone(rs.getString(3));
-//					aluno.setEmail(rs.getString(4));
 				}
 			}
 			
@@ -128,6 +126,8 @@ public class EnderecoDAO extends AbstractDAO{
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
 				pst.executeQuery();
+				
+				connection.commit();
 			}
 		});		
 	}

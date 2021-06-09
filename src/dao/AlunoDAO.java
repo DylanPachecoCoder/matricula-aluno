@@ -24,15 +24,12 @@ public class AlunoDAO extends AbstractDAO{
 
 			@Override
 			public void executa() throws ClassNotFoundException, SQLException {	
-				IDAO cursoDAO = new CursoDAO();
-				cursoDAO.salvar(aluno.getCurso());
-				
 				connection = Conexao.getConnectionPostgres();	
 				connection.setAutoCommit(false);	
 						
 				StringBuilder sql = new StringBuilder();
-				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno, aluno_curso)");
-				sql.append("VALUES (?, ?, ?, ?, ?)");		
+				sql.append("INSERT INTO aluno(nome_aluno, dt_nasc_aluno, rg_aluno, cpf_aluno)");
+				sql.append("VALUES (?, ?, ?, ?)");		
 						
 				pst = connection.prepareStatement(sql.toString(),
 						Statement.RETURN_GENERATED_KEYS);
@@ -40,7 +37,6 @@ public class AlunoDAO extends AbstractDAO{
 				pst.setString(2, aluno.getDataNascimento());
 				pst.setString(3, aluno.getRg());
 				pst.setString(4, aluno.getCpf());
-				pst.setInt(5, aluno.getCurso().getId());
 				pst.executeUpdate();
 				
 				ResultSet rs = pst.getGeneratedKeys();			
@@ -55,6 +51,9 @@ public class AlunoDAO extends AbstractDAO{
 				
 				IDAO semestreDAO = new SemestreDAO();
 				semestreDAO.salvar(aluno);
+				
+				IDAO cursoDAO = new CursoDAO();
+				cursoDAO.salvar(aluno);
 			}
 			
 		});
@@ -72,7 +71,7 @@ public class AlunoDAO extends AbstractDAO{
 				StringBuilder sql = new StringBuilder();
 				sql.append("Select * from aluno ")
 				.append("INNER JOIN endereco ON endereco.endereco_aluno = aluno.id_aluno ")
-				.append("LEFT JOIN curso ON curso.id_curso = aluno.aluno_curso ")
+				.append("LEFT JOIN curso ON curso.curso_aluno = aluno.id_aluno ")
 				.append("LEFT JOIN semestre ON semestre.semestre_aluno = aluno.id_aluno ")
 				.append("LEFT JOIN materia ON materia.materia_curso = curso.id_curso ")
 				.append("LEFT JOIN professor ON professor.id_professor = materia.materia_professor ")
@@ -150,11 +149,15 @@ public class AlunoDAO extends AbstractDAO{
 				IDAO semestreDAO = new SemestreDAO();
 				semestreDAO.deletar(aluno);
 				
+				IDAO cursoDAO = new CursoDAO();
+				cursoDAO.deletar(aluno);
+				
 				connection = Conexao.getConnectionPostgres();					
 				String sql = "delete from aluno where id_aluno=?";
 				pst = connection.prepareStatement(sql);
 				pst.setInt(1, aluno.getId());
 				pst.executeQuery();
+				connection.commit();
 			}
 		});		
 	}
