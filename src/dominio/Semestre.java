@@ -2,19 +2,21 @@ package dominio;
 
 public class Semestre extends EntidadeDominio {
 	
-	private int ano;
+	private String ano;
 	private String semestre;
 	
-	public Semestre(int ano, String semestre) {
+	public Semestre() {	}
+	
+	public Semestre(String ano, String semestre) {
 		this.ano = ano;
 		this.semestre = semestre;
 	}
 
-	public int getAno() {
+	public String getAno() {
 		return ano;
 	}
 
-	public void setAno(int ano) {
+	public void setAno(String ano) {
 		this.ano = ano;
 	}
 

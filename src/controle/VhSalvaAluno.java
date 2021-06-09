@@ -27,22 +27,50 @@ public class VhSalvaAluno implements IViewHelper {
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
 		
-		Estado estado = new Estado("SP");
-		Cidade cidade = new Cidade("Poá", estado);
-		Endereco endereco = new Endereco("casa", 366, "08560050", "", cidade, TipoEndereco.CASA);
-		Semestre semestre = new Semestre(2021, "1");
 //		Professor professor = new Professor("Rodrigo", "08/12/1995", endereco, null, "qualificacao");
 //		Materia materia = new Materia("ES3", null, StatusMateria.ANDAMENTO, semestre, professor);
 //		List<Materia> materias = new ArrayList<Materia>();
 //		materias.add(materia);
-		Documento documento = new Documento("", new Date(), TipoDocumento.CPF);
-		ArrayList<Documento> documentos = new ArrayList<>();
-		documentos.add(documento);
-		Curso curso = new Curso("ADS", Periodo.NOTURNO);
-		Aluno aluno = new Aluno("Dylan", "08/12/1995", endereco, "123456", "654321", semestre, curso);
 		
-//		Aluno aluno = new Aluno();
-//		aluno.setNome(request.getParameter("nome"));
+//		Estado estado = new Estado("SP");
+//		Cidade cidade = new Cidade("Poá", estado);
+//		Endereco endereco = new Endereco("casa", 366, "08560050", "", cidade, TipoEndereco.CASA);
+//		Semestre semestre = new Semestre("2021", "1");
+//		Documento documento = new Documento("", new Date(), TipoDocumento.CPF);
+//		ArrayList<Documento> documentos = new ArrayList<>();
+//		documentos.add(documento);
+//		Curso curso = new Curso("ADS", "");
+//		Aluno aluno = new Aluno("Dylan", "08/12/1995", endereco, "123456", "654321", semestre, curso);
+		
+		
+		Estado estado = new Estado(request.getParameter("estado"));
+		Cidade cidade = new Cidade(request.getParameter("cidade"), estado);
+		Endereco endereco = new Endereco();
+		endereco.setLogradouro(request.getParameter("logradouro"));
+		endereco.setCep(request.getParameter("cep"));
+		endereco.setNumero(Integer.valueOf(request.getParameter("numero")));
+		endereco.setComplemento(request.getParameter("complemento"));
+		endereco.setCidade(cidade);
+		endereco.setTpEndereco(TipoEndereco.APARTAMENTO);
+		
+		Curso curso = new Curso();
+		curso.setDescricao(request.getParameter("curso"));
+		curso.setPeriodo(request.getParameter("periodo"));
+		
+		Semestre semestre = new Semestre();
+		semestre.setAno(request.getParameter("Ano"));
+		semestre.setSemestreEnum(request.getParameter("semestre"));
+		
+		
+		Aluno aluno = new Aluno();
+		aluno.setNome(request.getParameter("nome"));
+		aluno.setDataNascimento(request.getParameter("dt_Nasc"));
+		aluno.setCpf(request.getParameter("cpf"));
+		aluno.setRg(request.getParameter("rg"));
+		aluno.setSemestreInicial(semestre);
+		aluno.setEndereco(endereco);
+		aluno.setCurso(curso);
+		
 		return aluno;
 	}
 

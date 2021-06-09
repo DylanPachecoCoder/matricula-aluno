@@ -21,6 +21,7 @@
 			<tr>
 				<th>Nome</th>
 				<th>Cpf</th>
+				<th>Curso</th>
 				<th>Opções</th>
 			</tr>
 		</thead>
@@ -31,6 +32,7 @@
 			<tr>
 				<td><%=lista.get(i).getNome()%></td>
 				<td><%=lista.get(i).getCpf()%></td>
+				<td><%=lista.get(i).getRg()%></td>
 				<td>
 				<a href="select?id=<%= lista.get(i).getId()%>" class="Botao1">Editar</a>
 				<a href="javascript: confirmar(<%= lista.get(i).getId()%>)" class="Botao2">Excluir</a>

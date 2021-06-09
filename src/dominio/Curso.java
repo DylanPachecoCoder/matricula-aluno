@@ -6,11 +6,11 @@ public class Curso extends EntidadeDominio {
 	
 	private String descricao;
 	private List<Materia> materias;
-	private Periodo periodo;
+	private String periodo;
 	
 	public Curso() {}
 	
-	public Curso(String descricao, Periodo periodo) {
+	public Curso(String descricao, String periodo) {
 		this.descricao = descricao;
 		this.periodo = periodo;
 	}
@@ -31,11 +31,11 @@ public class Curso extends EntidadeDominio {
 		this.materias = materias;
 	}
 
-	public Periodo getPeriodo() {
+	public String getPeriodo() {
 		return periodo;
 	}
 
-	public void setPeriodo(Periodo periodo) {
+	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
 	}
 }

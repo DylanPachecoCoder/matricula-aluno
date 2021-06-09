@@ -87,8 +87,6 @@ public class Facade implements IFacade {
 	private void definirDAOS() {
 		daos = new HashMap<String, IDAO>();
 		daos.put(Aluno.class.getName(), new AlunoDAO());		
-		//daos.put(Produto.class.getName(), new ProdutoDAO());
-		//daos.put(Fornecedor.class.getName(), new FornecedorDAO());
 	}
 	
 	private String executarRegras(EntidadeDominio entidade) {
